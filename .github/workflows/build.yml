@@ -21,10 +21,9 @@ jobs:
         run: npm install
       - name: Docker Login
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Scout Scan
+      - name: Run Trivy Filesystem Scan
         run: |
-          docker-scout quickview fs://.
-          docker-scout cves fs://.
+           trivy filesystem --exit-code 1 .
       - name: Docker build and push
         run: |
           # Run commands to build and push Docker images
@@ -34,10 +33,9 @@ jobs:
           docker push vaibhavkarade/myntra:latest
         env:
           DOCKER_CLI_ACI: 1
-      - name: Docker Scout Image Scan
+      - name: Run Trivy Image Scan
         run: |
-          docker-scout quickview vaibhavkarade/myntra:latest
-          docker-scout cves vaibhavkarade/myntra:latest
+          trivy image  vaibhavkarade/myntra:latest --exit-code 1
   # deploy:
   #  needs: build-analyze-scan
   #  runs-on: [self-hosted]
