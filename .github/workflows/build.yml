@@ -36,14 +36,14 @@ jobs:
       - name: Run Trivy Image Scan
         run: |
           trivy image vaibhavkarade/myntra:latest > trivy.txt
-  # deploy:
-  #  needs: build-analyze-scan
-  #  runs-on: [self-hosted]
-  #  steps:
-  #     - name: docker pull image
-  #       run: docker pull sevenajay/myntra:latest
-  #     - name: Deploy to container
-  #       run: docker run -d --name game -p 3000:3000 sevenajay/myntra:latest
+  deploy:
+   needs: build-analyze-scan
+   runs-on: myntra
+   steps:
+      - name: docker pull image
+        run: docker pull vaibhavkarade/myntra:latest
+      - name: Deploy to container
+        run: docker run -d --name game -p 3000:3000 vaibhavkarade/myntra:latest
   #     - name: Update kubeconfig
   #       run: aws eks --region ap-south-1 update-kubeconfig --name EKS_CLOUD
   #     - name: Deploy to kubernetes
