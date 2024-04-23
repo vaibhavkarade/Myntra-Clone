@@ -49,5 +49,5 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
           manifests: |
-            manifests/deployment-service.yml
+            deployment-service.yml
           namespace: default
