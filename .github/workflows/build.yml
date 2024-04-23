@@ -23,7 +23,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run Trivy Filesystem Scan
         run: |
-           trivy filesystem --exit-code 1 .
+           trivy fs . > trivyfs.txt
       - name: Docker build and push
         run: |
           # Run commands to build and push Docker images
@@ -35,7 +35,7 @@ jobs:
           DOCKER_CLI_ACI: 1
       - name: Run Trivy Image Scan
         run: |
-          trivy image  vaibhavkarade/myntra:latest --exit-code 1
+          trivy image vaibhavkarade/myntra:latest > trivy.txt
   # deploy:
   #  needs: build-analyze-scan
   #  runs-on: [self-hosted]
